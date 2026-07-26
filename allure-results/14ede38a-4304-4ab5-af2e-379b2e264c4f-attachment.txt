@@ -1,0 +1,12 @@
+[
+  'ADIDAS ORIGINAL',
+  'ZARA COAT 3',
+  'iphone 13 pro',
+  'qwerty',
+  'car',
+  'iPhone QA Max',
+  '{{productName}}',
+  'Laptop',
+  'Laptop'
+]
+ | 6a5a641285b8849b49f37dc7 | 
