@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { POManager } = require('./pageObjects/POManager');
 
-test.only ('@Web Client App login and order with POManager', async ({ page }) => {
+test('@Web Client App login and order with POManager', async ({ page }) => {
   const poManager = new POManager(page);
   const email = 'anshika@gmail.com';
   const password = 'Iamking@000';
@@ -13,12 +13,14 @@ test.only ('@Web Client App login and order with POManager', async ({ page }) =>
   await poManager.getProductPage().addProductToCart(productName);
   await poManager.getProductPage().openCart();
 
-  await expect(await poManager.getCartPage().verifyProductInCart(productName)).toBeTruthy();
-  await poManager.getCartPage().checkout();
+  const isProductVisible = await poManager.getCreateOrderPage().verifyProductInCart(productName);
+  expect(isProductVisible).toBeTruthy();
 
-  await poManager.getCheckoutPage().selectCountry('India');
-  await poManager.getCheckoutPage().placeOrder();
+  await poManager.getCreateOrderPage().checkout();
+  await poManager.getCreateOrderPage().selectCountry('India');
+  const orderId = await poManager.getCreateOrderPage().placeOrder();
 
-  const orderId = await poManager.getCheckoutPage().getOrderId();
-  console.log('Order ID:', orderId.trim());
+  await poManager.getOrderHistoryPage().openOrderHistory();
+  const orderFound = await poManager.getOrderHistoryPage().verifyOrderExists(orderId);
+  expect(orderFound).toBeTruthy();
 });
