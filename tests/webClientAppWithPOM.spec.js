@@ -17,7 +17,8 @@ test('@Web Client App login and order with POManager', async ({ page }) => {
   expect(isProductVisible).toBeTruthy();
 
   await poManager.getCreateOrderPage().checkout();
-  await poManager.getCreateOrderPage().selectCountry('India');
+  await poManager.getCreateOrderPage().selectCountry('Ind');
+  await poManager.getCreateOrderPage().selectCountry('ia');
   const orderId = await poManager.getCreateOrderPage().placeOrder();
 
   await poManager.getOrderHistoryPage().openOrderHistory();
