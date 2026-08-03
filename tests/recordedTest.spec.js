@@ -8,7 +8,7 @@ test('test', async ({ page }) => {
   await page.getByRole('button', { name: 'Checkout' }).click();
   await page.getByRole('textbox', { name: 'Please choose your delivery' }).click();
   // fill the full country name directly to avoid flaky suggestion dropdown
-  await page.getByRole('textbox', { name: 'Please choose your delivery' }).fill('India');
+  await page.getByRole('textbox', { name: 'Please choose your delivery' })..pressSequentially('India', { delay: 150 });
   await page.getByText('I agree with the term &').click();
   await page.getByRole('button', { name: 'Purchase' }).click();
   await expect(page.locator('app-checkout')).toContainText('× Success! Thank you! Your order will be delivered in next few weeks :-).');
