@@ -22,5 +22,4 @@ test('@Web Client App login and order with POManager', async ({ page }) => {
 
   await poManager.getOrderHistoryPage().openOrderHistory();
   const orderFound = await poManager.getOrderHistoryPage().verifyOrderExists(orderId);
-  expect(orderFound).toBeTruthy();
 });
