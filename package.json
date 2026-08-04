@@ -12,6 +12,7 @@
     "@azure/identity": "^4.13.1",
     "@azure/playwright": "^1.1.6",
     "@cucumber/cucumber": "^13.1.1",
+    "@playwright/mcp": "^0.0.78",
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.1",
     "allure-playwright": "^3.10.2"
