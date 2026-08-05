@@ -1,32 +1,21 @@
-// @ts-check
-import { defineConfig, devices } from '@playwright/test';
-import { workers } from 'node:cluster';
+const { defineConfig } = require('@playwright/test');
 
-/*
- * @see https://playwright.dev/docs/test-configuration
- */
-const Config= ({
+module.exports = defineConfig({
   testDir: './tests',
   timeout: 40000,
-  retries: 2, 
+  retries: 2,
   workers: 5,
-  //fullyParallel: true,
-  //mode: 'serial',
   expect: {
     timeout: 30000,
   },
-  //reporter: 'html',
-  reporter: [["line"], ["allure-playwright"]],
+  reporter: [
+    ['line'],
+    ['html', { open: 'never' }],
+    ['allure-playwright']
+  ],
   use: {
     browserName: 'chromium',
     screenshot: 'only-on-failure',
     trace: 'on'
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-
   }
-
-  /* Configure projects for major browsers */
-  
 });
-
-module.exports = Config;
