@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { POManager } = require('./pageObjects/POManager');
 
-test.only ('@Web Client App login and order with POManager', async ({ page }) => {
+test ('@Web Client App login and order with POManager', async ({ page }) => {
   const poManager = new POManager(page);
   const email = 'anshika@gmail.com';
   const password = 'Iamking@000';

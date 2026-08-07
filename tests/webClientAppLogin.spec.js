@@ -38,8 +38,8 @@ test('@Webst Client App login', async ({ page }) => {
    await dropdown.waitFor();
    const optionsCount = await dropdown.locator("button").count();
    for (let i = 0; i < optionsCount; ++i) {
-      const text = await dropdown.locator("button").nth(i).textContent();
-      if (text === " India") {
+      const text = (await dropdown.locator("button").nth(i).textContent())?.trim();
+      if (text === "India") {
          await dropdown.locator("button").nth(i).click();
          break;
       }
