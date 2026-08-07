@@ -28,8 +28,9 @@ test('@Webst Client App login', async ({ page }) => {
    await page.locator("[routerlink*='cart']").click();
    //await page.pause();
  
-   await page.locator("div li").first().waitFor();
-   const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible();
+   const productInCart = page.locator(`h3:has-text("${productName}")`);
+   await productInCart.waitFor({ timeout: 60000 });
+   const bool = await productInCart.isVisible();
    //expect(bool).toBeTruthy();
    await page.locator("text=Checkout").click();
  

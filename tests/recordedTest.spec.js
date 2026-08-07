@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-
+// Checkout order
 test('test', async ({ page }) => {
   await page.goto('https://rahulshettyacademy.com/angularpractice/');
   await page.getByRole('link', { name: 'Shop' }).click();
