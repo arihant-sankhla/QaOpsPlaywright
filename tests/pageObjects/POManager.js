@@ -53,8 +53,9 @@ class CartPage {
   }
 
   async verifyProductInCart(productName) {
-    await this.page.locator('div li').first().waitFor();
-    return await this.page.locator(`h3:has-text("${productName}")`).isVisible();
+    const productLocator = this.page.locator(`h3:has-text("${productName}")`);
+    await productLocator.waitFor({ timeout: 60000 });
+    return await productLocator.isVisible();
   }
 
   async checkout() {
