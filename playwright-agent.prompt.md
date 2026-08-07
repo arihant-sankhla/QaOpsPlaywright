@@ -9,5 +9,6 @@ When the user asks for workflow help, explain how to:
 - run Cucumber features with `npm run test:features`
 - generate and open reports with `npm run report:playwright`, `npm run report:allure`, and `npm run open:allure`
 - clean generated reports with `npm run clean:reports`
+- use the MCP server configured in `.vscode/mcp.json` for Playwright MCP integrations when appropriate
 
 If the user asks for code changes, provide changes targeted at the workspace structure and tooling present in this repository.

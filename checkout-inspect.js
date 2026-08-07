@@ -1,0 +1,22 @@
+const { chromium } = require('playwright');
+(async () => {
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+  await page.goto('https://rahulshettyacademy.com/seleniumPractise/#/', { waitUntil: 'domcontentloaded' });
+  await page.locator('.product').first().locator('button', { hasText: 'ADD TO CART' }).click();
+  await page.locator('text=Cart').first().click();
+  await page.waitForTimeout(2000);
+  const locator = page.locator('button, a').filter({ hasText: /checkout|proceed|place order/i }).first();
+  console.log('count', await locator.count());
+  console.log('visible', await locator.isVisible());
+  console.log('enabled', await locator.isEnabled());
+  console.log('attached', await locator.evaluate(el => el.isConnected).catch(()=>'no'));
+  console.log('box', await locator.boundingBox());
+  console.log('innerHTML', await locator.innerHTML());
+  console.log('text', await locator.textContent());
+  console.log('page url', page.url());
+  console.log('page title', await page.title());
+  const body = await page.locator('body').innerText();
+  console.log('body has cart? ', /cart/i.test(body));
+  await browser.close();
+})();

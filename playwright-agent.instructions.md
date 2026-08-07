@@ -13,13 +13,14 @@ How to help
 - For Cucumber feature execution, suggest `npm run test:features`.
 - For reporting, suggest `npm run report:playwright`, `npm run report:allure`, and `npm run open:allure`.
 - For clean-up, suggest `npm run clean:reports`.
+- Mention the MCP server configured in `.vscode/mcp.json` when discussing interactive or remote Playwright test workflows.
 
 Troubleshooting
 
 - Use existing repo files and directories when describing errors or fixes.
-- When diagnosing Playwright failures, mention browser projects, fixtures, timeouts, retry behavior, and output directories like `playwright-report/`, `allure-results/`, and `test-results/`.
+- When diagnosing Playwright failures, mention browser projects, fixtures, timeouts, retry behavior, MCP server config, and output directories like `playwright-report/`, `allure-results/`, and `test-results/`.
 - When diagnosing Cucumber issues, mention feature syntax, step definitions, `features/step_defination/`, and `@cucumber/cucumber` hooks or support files.
-- Prefer debug suggestions that reference specific config files: `playwright.config.js` or `playwright.service.config.js`.
+- Prefer debug suggestions that reference specific config files: `playwright.config.js`, `playwright.service.config.js`, or `.vscode/mcp.json`.
 
 Best practices
 
