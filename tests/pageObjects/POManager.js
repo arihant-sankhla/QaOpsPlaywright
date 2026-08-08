@@ -53,9 +53,8 @@ class CartPage {
   }
 
   async verifyProductInCart(productName) {
-    const productLocator = this.page.locator(`h3:has-text("${productName}")`);
-    await productLocator.waitFor({ timeout: 60000 });
-    return await productLocator.isVisible();
+    await this.page.locator('div li').first().waitFor();
+    return await this.page.locator(`h3:has-text("${productName}")`).isVisible();
   }
 
   async checkout() {
@@ -78,6 +77,13 @@ class CheckoutPage {
   }
 
   async placeOrder() {
+    const backdrop = this.page.locator('.ta-backdrop');
+    try {
+      await backdrop.waitFor({ state: 'hidden', timeout: 3000 });
+    } catch (e) {
+      await this.page.keyboard.press('Escape');
+      await backdrop.waitFor({ state: 'hidden', timeout: 2000 });
+    }
     await this.placeOrderButton.click();
     await expect(this.orderConfirmation).toBeVisible();
   }

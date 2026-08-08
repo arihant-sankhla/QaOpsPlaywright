@@ -1,12 +1,10 @@
 {
   "servers": {
     "playwright": {
-      "type": "stdio",
       "command": "npx",
       "args": [
-        "@playwright/mcp",
-        "--allowed-hosts",
-        "rahulshettyacademy.com,localhost"
+        "-y",
+        "@playwright/mcp@latest"
       ]
     }
   }
