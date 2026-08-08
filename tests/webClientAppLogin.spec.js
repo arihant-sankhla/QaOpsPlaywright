@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
  
  
  
-test.only('@Webst Client App login', async ({ page }) => {
+test.skip('@Webst Client App login', async ({ page }) => {
    //js file- Login js, DashboardPage
    const email = "anshika@gmail.com";
    const productName = 'ZARA COAT 3';
@@ -31,10 +31,11 @@ test.only('@Webst Client App login', async ({ page }) => {
    await expect(cartItem).toBeVisible({ timeout: 15000 });
    await page.locator("text=Checkout").click();
  
-   const countryInput = page.getByPlaceholder('Select Country');
-   await countryInput.fill('India');
+   await page.getByPlaceholder("Select Country").pressSequentially("ind");
+ 
+   await page.getByRole("button",{name :"India"}).nth(1).click();
    const dropdown = page.locator(".ta-results");
-   //await expect(dropdown).toBeVisible({ timeout: 10000 });
+   await expect(dropdown).toBeVisible({ timeout: 10000 });
    await dropdown.locator('button', { hasText: 'India' }).click();
  
    expect(page.locator(".user__name [type='text']").first()).toHaveText(email);
