@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "playwright test",
     "test": "npx playwright test",
     "test:headed": "npx playwright test --headed",
     "test:ci": "npx playwright test --config=playwright.service.config.js --workers=4",
