@@ -4,7 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test"
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ci": "npx playwright test --config=playwright.service.config.js --workers=4",
+    "test:features": "npx cucumber-js --require features/step_defination --require features/support",
+    "report:playwright": "npx playwright show-report",
+    "report:allure": "npx allure generate --clean allure-results -o allure-report",
+    "open:allure": "npx allure open allure-report",
+    "clean:reports": "node -e \"const fs=require('fs'); ['playwright-report','allure-report','allure-results','test-results'].forEach(p=>fs.existsSync(p)&&fs.rmSync(p,{recursive:true,force:true}));\""
   },
   "keywords": [],
   "type": "commonjs",
@@ -15,6 +22,7 @@
     "@playwright/mcp": "^0.0.78",
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.1",
+    "allure-commandline": "^2.25.0",
     "allure-playwright": "^3.10.2"
   }
 }
