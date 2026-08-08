@@ -27,12 +27,3 @@ export default defineConfig(
      ],
   }
 );
-//Merge all settings into a single configuration object
-module.exports = defineConfig({
-  ...baseConfig,
-  ...azureConfig,
-  reporter: [
-    ["html", { open: "never" }],
-    ["@azure/playwright/reporter"],
-  ],
-});
