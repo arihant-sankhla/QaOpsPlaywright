@@ -1,0 +1,22 @@
+const { chromium } = require('playwright');
+(async () => {
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+  await page.goto('https://rahulshettyacademy.com/seleniumPractise/#/', { waitUntil: 'networkidle' });
+  await page.locator('.product').first().locator('button', { hasText: 'ADD TO CART' }).click();
+  const cartIcon = page.locator('a.cart-icon');
+  console.log('cart-icon count', await cartIcon.count());
+  console.log('visible', await cartIcon.isVisible());
+  console.log('box', await cartIcon.boundingBox());
+  await cartIcon.hover();
+  await page.waitForTimeout(1000);
+  console.log('after hover cart-preview display', await page.locator('.cart-preview').evaluate(el => window.getComputedStyle(el).display));
+  await cartIcon.click();
+  await page.waitForTimeout(1000);
+  console.log('after click cart-preview display', await page.locator('.cart-preview').evaluate(el => window.getComputedStyle(el).display));
+  const button = page.locator('button, a').filter({ hasText: /checkout|proceed|place order/i }).first();
+  console.log('checkout count', await button.count());
+  console.log('checkout visible', await button.isVisible().catch(() => false));
+  console.log('checkout box', await button.boundingBox());
+  await browser.close();
+})();

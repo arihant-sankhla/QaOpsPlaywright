@@ -1,39 +1,21 @@
-// @ts-check
-import { defineConfig, devices } from '@playwright/test';
-import { workers } from 'node:cluster';
+const { defineConfig } = require('@playwright/test');
 
-/*
- * @see https://playwright.dev/docs/test-configuration
- */
-const Config= ({
+module.exports = defineConfig({
   testDir: './tests',
-  // per-test max timeout
-  timeout: 120000,
-  // retry flaky tests up to 2 times
+  timeout: 40000,
   retries: 2,
-  // parallel workers
   workers: 5,
-  //fullyParallel: true,
-  //mode: 'serial',
   expect: {
-    timeout: 60000,
+    timeout: 30000,
   },
-  //reporter: 'html',
-  reporter: [["line"], ["allure-playwright"]],
+  reporter: [
+    ['line'],
+    ['html', { open: 'never' }],
+    ['allure-playwright']
+  ],
   use: {
     browserName: 'chromium',
     screenshot: 'only-on-failure',
-    trace: 'on',
-    // maximum time for Playwright actions like click/fill
-    actionTimeout: 60000,
-    // navigation timeout
-    navigationTimeout: 60000,
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-
+    trace: 'on'
   }
-
-  /* Configure projects for major browsers */
-  
 });
-
-module.exports = Config;

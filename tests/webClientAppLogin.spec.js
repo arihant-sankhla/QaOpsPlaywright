@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
  
  
  
-test('@Webst Client App login', async ({ page }) => {
+test.only('@Webst Client App login', async ({ page }) => {
    //js file- Login js, DashboardPage
    const email = "anshika@gmail.com";
    const productName = 'ZARA COAT 3';
@@ -26,25 +26,16 @@ test('@Webst Client App login', async ({ page }) => {
    }
  
    await page.locator("[routerlink*='cart']").click();
-   //await page.pause();
- 
-   const productInCart = page.locator(`h3:has-text("${productName}")`);
-   await productInCart.waitFor({ timeout: 60000 });
-   const bool = await productInCart.isVisible();
-   //expect(bool).toBeTruthy();
+   await page.waitForURL(/.*cart/);
+   const cartItem = page.locator("div li:has(h3:has-text('ZARA COAT 3'))");
+   await expect(cartItem).toBeVisible({ timeout: 15000 });
    await page.locator("text=Checkout").click();
  
-  await page.getByPlaceholder('Select Country').pressSequentially("ind", { delay: 150 }) 
+   const countryInput = page.getByPlaceholder('Select Country');
+   await countryInput.fill('India');
    const dropdown = page.locator(".ta-results");
-   await dropdown.waitFor();
-   const optionsCount = await dropdown.locator("button").count();
-   for (let i = 0; i < optionsCount; ++i) {
-      const text = await dropdown.locator("button").nth(i).textContent();
-      if (text === " India") {
-         await dropdown.locator("button").nth(i).click();
-         break;
-      }
-   }
+   //await expect(dropdown).toBeVisible({ timeout: 10000 });
+   await dropdown.locator('button', { hasText: 'India' }).click();
  
    expect(page.locator(".user__name [type='text']").first()).toHaveText(email);
    await page.locator(".action__submit").click();
