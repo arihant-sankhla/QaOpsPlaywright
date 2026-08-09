@@ -1,10 +1,10 @@
-
-# Playwright
+# Playwright and Testing Artifact Exclusions
+test-results/
+playwright-report/
+blob-report/
+.last-run.json
+allure-results/
+allure-report/
 node_modules/
-/test-results/
-/playwright-report/
-/allure-report/
-/allure-results/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
+dist/
+.vite/
