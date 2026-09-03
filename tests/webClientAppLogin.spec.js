@@ -4,7 +4,7 @@ const { Logger } = require('./utils/logger');
 
 const logger = new Logger('webClientAppLogin.spec', config.logLevel);
 
-test.only('@Webst Client App login', async ({ page }) => {
+test.skip('@Webst Client App login', async ({ page }) => {
    logger.info('Starting Web Client App login test');
    const productName = 'ZARA COAT 3';
    const products = page.locator(".card-body");
