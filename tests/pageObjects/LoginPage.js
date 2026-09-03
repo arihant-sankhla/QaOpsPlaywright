@@ -1,22 +1,34 @@
+const { Logger } = require('../utils/logger');
+const { config } = require('../utils/config');
+
 class LoginPage {
   constructor(page) {
     this.page = page;
-    this.emailInput = page.locator('#userEmail');
-    this.passwordInput = page.locator('#userPassword');
-    this.loginButton = page.locator("[value='Login']")
+    this.logger = new Logger('LoginPage', config.logLevel);
+    this.emailInput = page.getByPlaceholder('email@example.com');
+    this.passwordInput = page.getByPlaceholder('enter your passsword');
+    this.loginButton = page.getByRole('button', { name: 'Login' });
   }
 
   async goto() {
-    await this.page.goto('https://rahulshettyacademy.com/client');
+    this.logger.info('Navigating to login page', { url: config.baseUrl });
+    await this.page.goto(config.baseUrl);
   }
 
   async login(email, password) {
-    await this.emailInput.waitFor({ state: 'visible', timeout: 60000 });
-    await this.emailInput.fill(email);
-    await this.passwordInput.fill(password);
-    await this.loginButton.click();
-    await this.page.waitForLoadState('domcontentloaded');
-    await this.page.locator('.card-body').first().waitFor({ timeout: 60000 });
+    this.logger.info('Logging in', { email: email.replace(email.split('@')[0], '***') });
+    try {
+      await this.emailInput.waitFor({ state: 'visible', timeout: config.timeout });
+      await this.emailInput.fill(email);
+      await this.passwordInput.fill(password);
+      await this.loginButton.click();
+      await this.page.waitForLoadState('networkidle');
+      await this.page.locator('.card-body b').first().waitFor({ timeout: config.timeout });
+      this.logger.info('Login successful');
+    } catch (error) {
+      this.logger.error('Login failed', { error: error.message });
+      throw error;
+    }
   }
 }
 

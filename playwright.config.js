@@ -1,28 +1,22 @@
 const { defineConfig } = require('@playwright/test');
+const { config } = require('./tests/utils/config');
 
 module.exports = defineConfig({
   testDir: './tests',
-  timeout: 40000,
-  workers: 5,
+  timeout: config.timeout,
+  workers: config.workers,
   expect: {
-    timeout: 30000,
+    timeout: config.expectTimeout,
   },
   reporter: [
     ['line'],
     ['html', { open: 'never' }],
     ['allure-playwright']
   ],
-  /*webServer: {
-    // 💡 Changed to match your Vite setup
-    command: 'npm run preview', 
-    port: 3000,
-    reuseExistingServer: !process.env.CI,
-    // 💡 Add a timeout threshold so it fails fast instead of looping if stuck
-    timeout: 120000, 
-  },*/
   use: {
-    browserName: 'chromium',
+    browserName: config.browser,
     screenshot: 'only-on-failure',
-    trace: 'on'
+    trace: 'on',
+    headless: !config.isHeaded,
   }
 });
