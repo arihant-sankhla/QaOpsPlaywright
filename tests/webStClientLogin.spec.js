@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
  
  
  
-test.only('@Webst Client App login', async ({ page }) => {
+test('@Webst Client App login', async ({ page }) => {
    //js file- Login js, DashboardPage
    const email = "anshika@gmail.com";
    const productName = 'ZARA COAT 3';
@@ -19,6 +19,7 @@ test.only('@Webst Client App login', async ({ page }) => {
    .getByRole("button",{name:"Add to Cart"}).click();
  
    await page.getByRole("listitem").getByRole('button',{name:"Cart"}).click();
+   await page.waitForURL(/.*cart/);
  
    //await page.pause();
    await page.locator("div li").first().waitFor();
