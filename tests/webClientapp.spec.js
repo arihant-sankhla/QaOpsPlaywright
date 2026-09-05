@@ -12,8 +12,9 @@ test('@Web Client App login', async ({ page }) => {
    await page.locator("#userEmail").fill(email);
    await page.locator("#userPassword").type("Iamking@000");
    await page.locator("[value='Login']").click();
-   await page.waitForLoadState('networkidle');
-   await page.locator(".card-body b").first().waitFor();
+
+   // Wait for the product cards to be visible instead of relying on networkidle
+   await expect(page.locator(".card-body").first()).toBeVisible({ timeout: 15000 });
    const titles = await page.locator(".card-body b").allTextContents();
    console.log(titles); 
  
