@@ -19,6 +19,7 @@ test('@Webst Client App login', async ({ page }) => {
    .getByRole("button",{name:"Add to Cart"}).click();
  
    await page.getByRole("listitem").getByRole('button',{name:"Cart"}).click();
+   await page.waitForURL(/.*cart/);
  
    //await page.pause();
    await page.locator("div li").first().waitFor();

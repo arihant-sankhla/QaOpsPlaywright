@@ -32,7 +32,7 @@ test('API test', async ({page})=> {
    }
     await page.locator("[routerlink*='cart']").click();
     await page.waitForURL(/.*cart/);
-    await page.locator("div Li:has(h3:has-text('ZARA COAT 3'))").waitFor();
+    await page.locator("div li:has(h3:has-text('ZARA COAT 3'))").waitFor();
     //await expect(cartItem).toBeVisible({ timeout: 15000 });
     await page.locator("text=Checkout").click();
     await page.getByPlaceholder("Select Country").pressSequentially("ind");
