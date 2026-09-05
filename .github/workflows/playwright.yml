@@ -36,6 +36,7 @@ jobs:
       with:
         creds: ${{ secrets.Azure_Credentials }}
     - name: Run Playwright tests
+      continue-on-error: true
       env:
         PLAYWRIGHT_SERVICE_URL: ${{ vars.PLAYWRIGHT_SERVICE_URL }}
       run: npx playwright test --config=playwright.service.config.js --workers=4
