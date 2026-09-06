@@ -1,33 +1,34 @@
 const { test, expect } = require('@playwright/test');
+const { POManager } = require('./pageObjects/POManager');
 
-test('@Webst Client App login', async ({ page }) => {
-   const email = "anshika@gmail.com";
+test('@Webst Client App order flow', async ({ page }) => {
+   const poManager = new POManager(page);
+   const productName = "ZARA COAT 3";
 
-   await page.goto("https://rahulshettyacademy.com/client");
+   await page.goto(process.env.BASE_URL);
+   console.log("Current URL:", page.url());
 
-   // Use more robust selectors for email and password
-   await page.locator('input[type="email"]').fill(email);
-   await page.locator('input[type="password"]').fill("Iamking@000");
+   try {
+     await expect(page).not.toHaveURL(/.*auth\/login/);
+     await page.waitForLoadState('domcontentloaded');
+   } catch (e) {
+     console.log("Login state might be missing. Current URL:", page.url());
+     const body = await page.innerText('body');
+     console.log("Body snippet:", body.substring(0, 200));
+     throw e;
+   }
 
-   await page.locator("[value='Login']").click();
+   const productPage = poManager.getProductPage();
+   await productPage.addProductToCart(productName);
+   await productPage.openCart();
 
-   // Wait for the product cards to be visible
-   await expect(page.locator(".card-body").first()).toBeVisible({ timeout: 15000 });
+   const cartPage = poManager.getCartPage();
+   await cartPage.verifyProductInCart(productName);
+   await cartPage.checkout();
 
-   await page.locator(".card-body").filter({ hasText: "ZARA COAT 3" })
-     .getByRole("button", { name: "Add to Cart" }).click();
+   const checkoutPage = poManager.getCheckoutPage();
+   await checkoutPage.selectCountry("India");
+   await checkoutPage.placeOrder();
 
-   await page.getByRole("listitem").getByRole('button', { name: "Cart" }).click();
-
-   await page.locator("div li").first().waitFor();
-   await expect(page.getByText("ZARA COAT 3")).toBeVisible();
-
-   await page.getByRole("button", { name: "Checkout" }).click();
-
-   await page.getByPlaceholder("Select Country").pressSequentially("ind");
-
-   await page.getByRole("button", { name: "India" }).nth(1).click();
-   await page.getByText("PLACE ORDER").click();
-
-   await expect(page.getByText("Thankyou for the order.")).toBeVisible();
+   await expect(checkoutPage.orderConfirmation).toBeVisible();
 });

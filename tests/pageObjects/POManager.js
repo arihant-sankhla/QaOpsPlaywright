@@ -29,11 +29,11 @@ class ProductPage {
   }
 
   async addProductToCart(productName) {
-    await this.page.waitForSelector('.card-body');
+    await this.products.first().waitFor({ state: 'visible', timeout: 15000 });
     const count = await this.products.count();
     for (let i = 0; i < count; ++i) {
       const title = await this.products.nth(i).locator('b').textContent();
-      if (title.trim() === productName) {
+      if (title?.trim() === productName) {
         await this.products.nth(i).getByRole('button', { name: 'Add to Cart' }).click();
         return;
       }

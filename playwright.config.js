@@ -1,27 +1,23 @@
 const { defineConfig } = require('@playwright/test');
+require('dotenv').config();
 
 module.exports = defineConfig({
   testDir: './tests',
-  timeout: 40000,
-  workers: 5,
+  globalSetup: require.resolve('./tests/global-setup'),
+  timeout: process.env.TIMEOUT ? parseInt(process.env.TIMEOUT) : 40000,
+  workers: process.env.WORKERS ? parseInt(process.env.WORKERS) : 5,
   expect: {
-    timeout: 30000,
+    timeout: process.env.EXPECT_TIMEOUT ? parseInt(process.env.EXPECT_TIMEOUT) : 30000,
   },
   reporter: [
     ['line'],
     ['html', { open: 'never' }],
     ['allure-playwright']
   ],
-  /*webServer: {
-    // 💡 Changed to match your Vite setup
-    command: 'npm run preview', 
-    port: 3000,
-    reuseExistingServer: !process.env.CI,
-    // 💡 Add a timeout threshold so it fails fast instead of looping if stuck
-    timeout: 120000, 
-  },*/
   use: {
-    browserName: 'chromium',
+    baseURL: process.env.BASE_URL,
+    browserName: process.env.BROWSER || 'chromium',
+    storageState: 'storageState.json',
     screenshot: 'only-on-failure',
     trace: 'on'
   }
