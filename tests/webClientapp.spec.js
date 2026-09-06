@@ -1,46 +1,32 @@
 const { test, expect } = require('@playwright/test');
- 
- 
-test.describe.configure({mode:'parallel'})
- 
-test('@Web Client App login', async ({ page }) => {
-   //js file- Login js, DashboardPage
-   const email = "anshika@gmail.com";
-   const productName = 'zara coat 3';
-   const products = page.locator(".card-body");
-   await page.goto("https://rahulshettyacademy.com/client");
-   await page.locator("#userEmail").fill(email);
-   await page.locator("#userPassword").type("Iamking@000");
-   await page.locator("[value='Login']").click();
+const { POManager } = require('./pageObjects/POManager');
 
-   // Wait for the product cards to be visible instead of relying on networkidle
-   await expect(page.locator(".card-body").first()).toBeVisible({ timeout: 15000 });
-   const titles = await page.locator(".card-body b").allTextContents();
-   console.log(titles); 
- 
+test.describe.configure({ mode: 'parallel' });
+
+test('@Web Client App Dashboard', async ({ page }) => {
+   const poManager = new POManager(page);
+
+   await page.goto(process.env.BASE_URL);
+
+   const productPage = poManager.getProductPage();
+   const titles = await productPage.products.locator('b').allTextContents();
+   console.log(titles);
 });
 
-test('@Child windows hadl', async ({browser})=>
- {
-    const context = await browser.newContext();
-    const page =  await context.newPage();
-    const userName = page.locator('#username');
-    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
-    const documentLink = page.locator("[href*='documents-request']");
- 
-    const [newPage]=await Promise.all(
-   [
-      context.waitForEvent('page'),//listen for any new page pending,rejected,fulfilled
-      documentLink.click(),
-   
-   ])//new page is opened
-   
- 
-   const  text = await newPage.locator(".red").textContent();
-    const arrayText = text.split("@")
-    const domain =  arrayText[1].split(" ")[0]
-    //console.log(domain);
-    await page.locator("#username").fill(domain);
-    console.log(await page.locator("#username").inputValue());
- 
- });
+test('@Child windows hadl', async ({ browser }) => {
+   const context = await browser.newContext();
+   const page = await context.newPage();
+   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+
+   const documentLink = page.locator("[href*='documents-request']");
+   const [newPage] = await Promise.all([
+     context.waitForEvent('page'),
+     documentLink.click(),
+   ]);
+
+   const text = await newPage.locator(".red").textContent();
+   const domain = text.split("@")[1].split(" ")[0];
+
+   await page.locator("#username").fill(domain);
+   console.log(await page.locator("#username").inputValue());
+});

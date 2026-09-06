@@ -28,5 +28,8 @@
     "allure-commandline": "^2.25.0",
     "allure-playwright": "^3.10.2",
     "vite": "^8.2.1"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
   }
 }
